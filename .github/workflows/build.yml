@@ -21,13 +21,21 @@ jobs:
       - name: Completar estrutura nativa (android/ios) que falta no projeto
         run: flutter create . --project-name audio_bg_mixer --org com.example
 
+      - name: Corrigir compileSdk para 35 (exigido pelos plugins de audio/ffmpeg)
+        run: |
+          sed -i 's/compileSdk = flutter.compileSdkVersion/compileSdk = 35/' android/app/build.gradle
+          sed -i 's/compileSdkVersion flutter.compileSdkVersion/compileSdkVersion 35/' android/app/build.gradle
+
       - name: Baixar as dependencias do projeto
         run: flutter pub get
 
-      - name: Primeira tentativa de build (baixa o .aar do ffmpeg, pode falhar - é esperado)
+      - name: Primeira tentativa de build (baixa o .aar do ffmpeg, pode falhar - e esperado)
         run: flutter build apk --release || true
 
-      - name: Segunda tentativa (agora o .aar ja foi baixado, deve funcionar)
+      - name: Limpar cache corrompido do gradle antes de tentar de novo
+        run: rm -rf ~/.gradle/caches/transforms-3 ~/.gradle/caches/transforms-4 build
+
+      - name: Segunda tentativa (build final, com o .aar ja baixado corretamente)
         run: flutter build apk --release
 
       - name: Disponibilizar o APK pra download
