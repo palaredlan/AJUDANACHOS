@@ -1,0 +1,4 @@
+Coloque aqui 3 mp3 (curtos, 2-3min, ~128kbps) com estes nomes exatos:
+fundo_lofi.mp3
+fundo_emocionante.mp3
+fundo_suave.mp3
