@@ -24,7 +24,10 @@ jobs:
       - name: Baixar as dependencias do projeto
         run: flutter pub get
 
-      - name: Compilar o APK
+      - name: Primeira tentativa de build (baixa o .aar do ffmpeg, pode falhar - é esperado)
+        run: flutter build apk --release || true
+
+      - name: Segunda tentativa (agora o .aar ja foi baixado, deve funcionar)
         run: flutter build apk --release
 
       - name: Disponibilizar o APK pra download
