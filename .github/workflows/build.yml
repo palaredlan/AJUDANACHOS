@@ -32,10 +32,13 @@ jobs:
       - name: Primeira tentativa de build (baixa o .aar do ffmpeg, pode falhar - e esperado)
         run: flutter build apk --release || true
 
-      - name: Limpar cache corrompido do gradle antes de tentar de novo
-        run: rm -rf ~/.gradle/caches/transforms-3 ~/.gradle/caches/transforms-4 build
+      - name: Limpeza completa antes da tentativa final
+        run: |
+          flutter clean
+          rm -rf ~/.gradle/caches
+          flutter pub get
 
-      - name: Segunda tentativa (build final, com o .aar ja baixado corretamente)
+      - name: Segunda tentativa (build final, cache totalmente limpo)
         run: flutter build apk --release
 
       - name: Disponibilizar o APK pra download
